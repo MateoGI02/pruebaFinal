@@ -8,15 +8,7 @@
 
         <div class="slds-m-around_medium">
             <template if:true={accounts}>
-                <lightning-datatable
-                    key-field="Id"
-                    data={accounts}
-                    columns={columns}
-                    onsave={handleSave}
-                    draft-values={draftValues}
-                    max-row-selection="1"
-                    onrowselection={handleRowSelection}>
-                </lightning-datatable>
+                <lightning-datatable key-field="Id" data={accounts} columns={columns} onsave={handleSave} draft-values={draftValues} max-row-selection="1" onrowselection={handleRowSelection}></lightning-datatable>
             </template>
             <template if:true={error}>
                 <div class="slds-text-color_error">Error cargando los datos: {error}</div>
@@ -24,42 +16,79 @@
         </div>
 
         <template if:true={selectedRecordId}>
-            <div class="slds-grid slds-gutters slds-m-around_medium slds-border_top slds-p-top_medium">
+            
+            <div class="slds-box slds-m-around_medium slds-theme_default">
+                <div class="slds-grid slds-gutters slds-vertical-align-end">
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox 
+                            name="tipoTarjeta" 
+                            label="Filtro: Tipo de Tarjeta" 
+                            value={tipoTarjetaSeleccionado} 
+                            placeholder="Seleccione Tipo" 
+                            options={tipoOpciones} 
+                            onchange={handleTipoChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <lightning-combobox 
+                            name="segmentoTarjeta" 
+                            label="Filtro: Segmento de Tarjeta" 
+                            value={segmentoTarjetaSeleccionado} 
+                            placeholder="Seleccione Segmento" 
+                            options={segmentoOpciones} 
+                            onchange={handleSegmentoChange} 
+                            disabled={isSegmentoDisabled}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-wrap slds-m-around_medium slds-border_top slds-p-top_medium">
                 
                 <div class="slds-col slds-size_1-of-2">
-                    <lightning-card title="Leads (Ventas)" icon-name="standard:lead">
+                    <lightning-card title="Leads (Ventas)" icon-name="standard:lead" class="slds-m-bottom_medium slds-show">
                         <lightning-button label="Venta" variant="brand" slot="actions" onclick={handleNewLead}></lightning-button>
                         <div class="slds-m-around_small">
-                            <template if:true={leads}>
-                                <lightning-datatable
-                                    key-field="Id"
-                                    data={leads}
-                                    columns={leadColumns}
-                                    hide-checkbox-column>
-                                </lightning-datatable>
-                            </template>
-                            <template if:false={leads}>
-                                <p class="slds-text-align_center slds-text-color_weak">No hay leads asociados.</p>
-                            </template>
+                            <template if:true={leads}><lightning-datatable key-field="Id" data={leads} columns={leadColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={leads}><p class="slds-text-align_center slds-text-color_weak">No hay leads asociados.</p></template>
+                        </div>
+                    </lightning-card>
+
+                    <lightning-card title="Oportunidades" icon-name="standard:opportunity" class="slds-m-bottom_medium slds-show">
+                        <div class="slds-m-around_small">
+                            <template if:true={opportunities}><lightning-datatable key-field="Id" data={opportunities} columns={oppColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={opportunities}><p class="slds-text-align_center slds-text-color_weak">No hay oportunidades asociadas.</p></template>
+                        </div>
+                    </lightning-card>
+
+                    <lightning-card title="Beneficios" icon-name="standard:reward" class="slds-show">
+                        <div class="slds-m-around_small">
+                            <template if:true={beneficios}><lightning-datatable key-field="Id" data={beneficios} columns={beneficioColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={beneficios}><p class="slds-text-align_center slds-text-color_weak">No hay beneficios asociados.</p></template>
                         </div>
                     </lightning-card>
                 </div>
 
                 <div class="slds-col slds-size_1-of-2">
-                    <lightning-card title="Casos (Reclamos)" icon-name="standard:case">
+                    <lightning-card title="Casos (Reclamos)" icon-name="standard:case" class="slds-m-bottom_medium slds-show">
                         <lightning-button label="Reclamo" variant="brand" slot="actions" onclick={handleNewCase}></lightning-button>
                         <div class="slds-m-around_small">
-                            <template if:true={cases}>
-                                <lightning-datatable
-                                    key-field="Id"
-                                    data={cases}
-                                    columns={caseColumns}
-                                    hide-checkbox-column>
-                                </lightning-datatable>
-                            </template>
-                            <template if:false={cases}>
-                                <p class="slds-text-align_center slds-text-color_weak">No hay reclamos asociados.</p>
-                            </template>
+                            <template if:true={cases}><lightning-datatable key-field="Id" data={cases} columns={caseColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={cases}><p class="slds-text-align_center slds-text-color_weak">No hay reclamos asociados.</p></template>
+                        </div>
+                    </lightning-card>
+
+                    <lightning-card title="Cuentas Financieras" icon-name="standard:investment_account" class="slds-m-bottom_medium slds-show">
+                        <div class="slds-m-around_small">
+                            <template if:true={financialAccounts}><lightning-datatable key-field="Id" data={financialAccounts} columns={finAccColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={financialAccounts}><p class="slds-text-align_center slds-text-color_weak">No hay cuentas financieras asociadas.</p></template>
+                        </div>
+                    </lightning-card>
+
+                    <lightning-card title="Promociones" icon-name="standard:campaign" class="slds-show">
+                        <div class="slds-m-around_small">
+                            <template if:true={promociones}><lightning-datatable key-field="Id" data={promociones} columns={beneficioColumns} hide-checkbox-column onrowaction={handleRowAction}></lightning-datatable></template>
+                            <template if:false={promociones}><p class="slds-text-align_center slds-text-color_weak">No hay promociones asociadas.</p></template>
                         </div>
                     </lightning-card>
                 </div>
