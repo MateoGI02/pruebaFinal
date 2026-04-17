@@ -73,7 +73,7 @@ public with sharing class AccountManagerController {
     public static List<sObject> getAccountBeneficios(Id accountId, String tipoTarjeta, String segmentoTarjeta) {
         if (accountId == null) { return new List<sObject>(); }
         // CORRECCIÓN: Sin Account__c, filtrando solo por catálogo general
-        String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Benefit\'';
+        String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Beneficio\'';
         if (String.isNotBlank(tipoTarjeta)) { query += ' AND Tipo_de_Tarjeta__c = :tipoTarjeta'; }
         if (String.isNotBlank(segmentoTarjeta)) { query += ' AND Segmento_de_Tarjeta__c = :segmentoTarjeta'; }
         query += ' WITH SECURITY_ENFORCED';
@@ -84,7 +84,7 @@ public with sharing class AccountManagerController {
     public static List<sObject> getAccountPromociones(Id accountId, String tipoTarjeta, String segmentoTarjeta) {
         if (accountId == null) { return new List<sObject>(); }
         // CORRECCIÓN: Sin Account__c, filtrando solo por catálogo general
-        String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Promotion\'';
+        String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Promoción\'';
         if (String.isNotBlank(tipoTarjeta)) { query += ' AND Tipo_de_Tarjeta__c = :tipoTarjeta'; }
         if (String.isNotBlank(segmentoTarjeta)) { query += ' AND Segmento_de_Tarjeta__c = :segmentoTarjeta'; }
         query += ' WITH SECURITY_ENFORCED';
