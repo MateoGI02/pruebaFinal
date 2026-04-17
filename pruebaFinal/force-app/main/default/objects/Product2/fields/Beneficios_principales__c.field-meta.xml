@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Beneficios_principales__c</fullName>
     <description>Texto consolidado de todos los registros de Benefit__c de tipo &quot;Beneficio&quot; que coinciden en Marca y Segmento.</description>
-    <externalId>false</externalId>
     <label>Beneficios principales</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Linea_de_Credito_Minima__c</fullName>
     <description>Valor mínimo del saldo disponible en la tarjeta</description>
-    <externalId>false</externalId>
     <inlineHelpText>Valor mínimo del saldo disponible en la tarjeta</inlineHelpText>
     <label>Línea de Crédito Mínima</label>
     <precision>18</precision>

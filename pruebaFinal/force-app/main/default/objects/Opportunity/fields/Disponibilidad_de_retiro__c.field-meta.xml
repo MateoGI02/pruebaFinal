@@ -3,7 +3,6 @@
     <fullName>Disponibilidad_de_retiro__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Condición de uso en cajeros, heredada del Lead.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Condición de uso en cajeros, heredada del Lead.</inlineHelpText>
     <label>Disponibilidad de retiro</label>
     <trackFeedHistory>false</trackFeedHistory>

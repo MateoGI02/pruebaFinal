@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Segmento_de_Tarjeta__c</fullName>
     <description>Nivel del producto solicitado. Valores: Plata, Oro, Infinite.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Grado de la tarjeta</inlineHelpText>
     <label>Segmento de Tarjeta</label>
     <required>true</required>
