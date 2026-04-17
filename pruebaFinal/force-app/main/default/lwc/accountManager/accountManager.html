@@ -1,0 +1,70 @@
+<template>
+    <lightning-card title="Mis Cuentas" icon-name="standard:account">
+        <div slot="actions">
+            <lightning-button label="Nueva" variant="brand" onclick={handleNew}></lightning-button>
+            <lightning-button label="Editar" class="slds-m-left_x-small" onclick={handleEdit}></lightning-button>
+            <lightning-button label="Eliminar" variant="destructive" class="slds-m-left_x-small" onclick={handleDelete}></lightning-button>
+        </div>
+
+        <div class="slds-m-around_medium">
+            <template if:true={accounts}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={accounts}
+                    columns={columns}
+                    onsave={handleSave}
+                    draft-values={draftValues}
+                    max-row-selection="1"
+                    onrowselection={handleRowSelection}>
+                </lightning-datatable>
+            </template>
+            <template if:true={error}>
+                <div class="slds-text-color_error">Error cargando los datos: {error}</div>
+            </template>
+        </div>
+
+        <template if:true={selectedRecordId}>
+            <div class="slds-grid slds-gutters slds-m-around_medium slds-border_top slds-p-top_medium">
+                
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-card title="Leads (Ventas)" icon-name="standard:lead">
+                        <lightning-button label="Venta" variant="brand" slot="actions" onclick={handleNewLead}></lightning-button>
+                        <div class="slds-m-around_small">
+                            <template if:true={leads}>
+                                <lightning-datatable
+                                    key-field="Id"
+                                    data={leads}
+                                    columns={leadColumns}
+                                    hide-checkbox-column>
+                                </lightning-datatable>
+                            </template>
+                            <template if:false={leads}>
+                                <p class="slds-text-align_center slds-text-color_weak">No hay leads asociados.</p>
+                            </template>
+                        </div>
+                    </lightning-card>
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-card title="Casos (Reclamos)" icon-name="standard:case">
+                        <lightning-button label="Reclamo" variant="brand" slot="actions" onclick={handleNewCase}></lightning-button>
+                        <div class="slds-m-around_small">
+                            <template if:true={cases}>
+                                <lightning-datatable
+                                    key-field="Id"
+                                    data={cases}
+                                    columns={caseColumns}
+                                    hide-checkbox-column>
+                                </lightning-datatable>
+                            </template>
+                            <template if:false={cases}>
+                                <p class="slds-text-align_center slds-text-color_weak">No hay reclamos asociados.</p>
+                            </template>
+                        </div>
+                    </lightning-card>
+                </div>
+
+            </div>
+        </template>
+    </lightning-card>
+</template>
