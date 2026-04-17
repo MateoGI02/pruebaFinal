@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validar_Monto_Valor_Positivo</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    /* Condición 1: El campo NO está vacío */
+    NOT(ISBLANK(Value_Amount__c)),
+    
+    /* Condición 2: El valor ingresado es 0 o negativo */
+    Value_Amount__c &lt;= 0
+)</errorConditionFormula>
+    <errorDisplayField>Value_Amount__c</errorDisplayField>
+    <errorMessage>El Monto del Valor debe ser estrictamente mayor a 0. Si no aplica un valor numérico para este beneficio, deje el campo en blanco.</errorMessage>
+</ValidationRule>

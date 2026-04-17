@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cliente_Apto__c</fullName>
+    <description>Validación Automática de si el cliente es apto</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    AND(
+        /* --- 1. FILTROS DUROS DE RIESGO --- */
+        
+        /* Validar que el campo fecha no esté vacío por seguridad y calcular edad (18 a 65) */
+        NOT(ISBLANK(Fecha_de_nacimiento__c)),
+        (TODAY() - Fecha_de_nacimiento__c) / 365.2425 &gt;= 18,
+        (TODAY() - Fecha_de_nacimiento__c) / 365.2425 &lt;= 65,
+        
+        /* Validar que la Situación Laboral sea aceptada */
+        OR(
+            TEXT(Situacion_Laboral__c) = &quot;Dependiente&quot;,
+            TEXT(Situacion_Laboral__c) = &quot;Independiente&quot;,
+            TEXT(Situacion_Laboral__c) = &quot;Empresario&quot;
+        ),
+        
+        /* --- 2. MATRIZ COMERCIAL DE PRODUCTOS --- */
+        OR(
+            /* 1. Regla para Visa Light */
+            AND(
+                TEXT(Segmento_de_Tarjeta__c) = &quot;Light&quot;,
+                TEXT(Tipo_de_Tarjeta__c) = &quot;Visa&quot;,
+                Ingreso_Mensual__c &gt;= 1000,
+                Ingreso_Mensual__c &lt; 2000,
+                Linea_de_Credito_Solicitada__c &lt;= 1500
+            ),
+            
+            /* 2. Regla para Clásica (Visa/Amex) y Standard (Mastercard) */
+            AND(
+                OR(
+                    AND(TEXT(Segmento_de_Tarjeta__c) = &quot;Clásica&quot;, OR(TEXT(Tipo_de_Tarjeta__c) = &quot;Visa&quot;, TEXT(Tipo_de_Tarjeta__c) = &quot;Amex&quot;)),
+                    AND(TEXT(Segmento_de_Tarjeta__c) = &quot;Standard&quot;, TEXT(Tipo_de_Tarjeta__c) = &quot;Mastercard&quot;)
+                ),
+                Ingreso_Mensual__c &gt;= 2000,
+                Ingreso_Mensual__c &lt; 3500,
+                Linea_de_Credito_Solicitada__c &lt;= 3000
+            ),
+            
+            /* 3. Regla para Oro (Aplica igual para Visa, Amex, Mastercard) */
+            AND(
+                TEXT(Segmento_de_Tarjeta__c) = &quot;Oro&quot;,
+                Ingreso_Mensual__c &gt;= 3500,
+                Ingreso_Mensual__c &lt; 5500,
+                Linea_de_Credito_Solicitada__c &lt;= 5000
+            ),
+            
+            /* 4. Regla para Platinum (Aplica igual para Visa, Amex, Mastercard) */
+            AND(
+                TEXT(Segmento_de_Tarjeta__c) = &quot;Platinum&quot;,
+                Ingreso_Mensual__c &gt;= 5500,
+                Ingreso_Mensual__c &lt; 7500,
+                Linea_de_Credito_Solicitada__c &lt;= 7000
+            ),
+            
+            /* 5. Regla para Visa Signature */
+            AND(
+                TEXT(Segmento_de_Tarjeta__c) = &quot;Signature&quot;,
+                TEXT(Tipo_de_Tarjeta__c) = &quot;Visa&quot;,
+                Ingreso_Mensual__c &gt;= 7500,
+                Ingreso_Mensual__c &lt; 10000,
+                Linea_de_Credito_Solicitada__c &lt;= 10000
+            ),
+            
+            /* 6. Regla para Top Tier: Infinite (Visa) y Black (Amex) */
+            AND(
+                OR(
+                    AND(TEXT(Segmento_de_Tarjeta__c) = &quot;Infinite&quot;, TEXT(Tipo_de_Tarjeta__c) = &quot;Visa&quot;),
+                    AND(TEXT(Segmento_de_Tarjeta__c) = &quot;Black&quot;, TEXT(Tipo_de_Tarjeta__c) = &quot;Amex&quot;)
+                ),
+                Ingreso_Mensual__c &gt;= 10000,
+                Linea_de_Credito_Solicitada__c &gt; 10000
+            )
+        )
+    ),
+    &quot;Sí&quot;,
+    &quot;No&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Cálculo automático según valores ingresados</inlineHelpText>
+    <label>Cliente Apto</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validar_Fecha_Fin_Promocion</fullName>
+    <active>true</active>
+    <description>Esta regla garantizará que la fecha de fin tenga sentido lógico (no terminar antes de empezar) y que la duración máxima de la promoción o beneficio no exceda los 2 años.</description>
+    <errorConditionFormula>OR(
+    /* Condición 1: La fecha de fin no puede ser anterior a la de inicio */
+    End_Date__c &lt; Start_Date__c,
+    
+    /* Condición 2: La vigencia no puede exceder los 2 años (24 meses) desde el inicio */
+    End_Date__c &gt; ADDMONTHS(Start_Date__c, 24)
+)</errorConditionFormula>
+    <errorDisplayField>End_Date__c</errorDisplayField>
+    <errorMessage>La Fecha de Fin es inválida. No puede ser anterior a la Fecha de Inicio y la vigencia máxima permitida es de 2 años.</errorMessage>
+</ValidationRule>

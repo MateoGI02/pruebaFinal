@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validar_Montos_Positivos</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    Ingreso_Mensual__c &lt;= 0,
+    Linea_de_Credito_Aprobada__c &lt;= 0
+)</errorConditionFormula>
+    <errorMessage>Tanto el ingreso mensual como la línea de crédito deben ser mayores a cero.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Linea_Aprobada_Mayor_A_Cero</fullName>
+    <active>true</active>
+    <errorConditionFormula>Linea_de_Credito_Aprobada__c &lt;= 0</errorConditionFormula>
+    <errorMessage>La Línea de Crédito Aprobada debe ser un monto mayor a 0.</errorMessage>
+</ValidationRule>

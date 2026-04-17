@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fecha_Nacimiento_Coherente</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    Fecha_de_nacimiento__c &gt; TODAY(),
+    Fecha_de_nacimiento__c &lt; TODAY() - (120 * 365.2425)
+)</errorConditionFormula>
+    <errorDisplayField>Fecha_de_nacimiento__c</errorDisplayField>
+    <errorMessage>La fecha de nacimiento no puede ser futura ni mayor a 120 años de antigüedad.</errorMessage>
+</ValidationRule>

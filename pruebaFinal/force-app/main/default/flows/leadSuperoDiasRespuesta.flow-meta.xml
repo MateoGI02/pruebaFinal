@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Se valida si el lead supero el umbral de días límite</description>
+        <name>Super_el_limite_de_dias</name>
+        <label>¿Superó el límite de días?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>S_excedi</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>f_PlazoExcedido</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Desestimar_Lead_por_Inactividad</targetReference>
+            </connector>
+            <label>Sí, excedió</label>
+        </rules>
+    </decisions>
+    <description>Flow para el desestimado automático de los lead que no han sido resueltos en el tiempo esperado</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Booleano para validar si se ha llegado al límite del plazo o se ha excedido</description>
+        <name>f_PlazoExcedido</name>
+        <dataType>Boolean</dataType>
+        <expression>TODAY() - DATEVALUE({!$Record.LastModifiedDate}) &gt;= BLANKVALUE({!$Record.Dias_Definidos_para_cierre__c}, 30)</expression>
+    </formulas>
+    <interviewLabel>lead {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>leadSuperoDiasRespuesta</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Desestimar_Lead_por_Inactividad</name>
+        <label>Desestimar Lead por Inactividad</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Cerrado automático por superar el límite de días máximo para convertir el Lead</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Closed - Not Converted</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Super_el_limite_de_dias</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Open - Not Contacted</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Dias_Definidos_para_cierre__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Lead</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2026-04-14</startDate>
+            <startTime>04:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

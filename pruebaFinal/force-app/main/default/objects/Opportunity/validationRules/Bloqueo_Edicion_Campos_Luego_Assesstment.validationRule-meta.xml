@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bloqueo_Edicion_Campos_Luego_Assesstment</fullName>
+    <active>true</active>
+    <description>No se puede editar los campos luego de Assesstment</description>
+    <errorConditionFormula>AND(
+    /* 1. Solo aplica si NO estamos cambiando de etapa */
+    NOT(ISCHANGED(StageName)),
+    
+    /* 2. Aplica para estas etapas específicas */
+    OR(
+        TEXT(StageName) = &quot;Approval&quot;,
+        TEXT(StageName) = &quot;Contract&quot;
+    ),
+    
+    /* 3. EXCEPCIÓN: Permite el cambio solo si NO se está tocando el campo del contrato */
+    NOT(ISCHANGED(Contrato_Cargado__c))
+)</errorConditionFormula>
+    <errorMessage>Luego de la etapa de Evaluación no se puede editar los campos.</errorMessage>
+</ValidationRule>

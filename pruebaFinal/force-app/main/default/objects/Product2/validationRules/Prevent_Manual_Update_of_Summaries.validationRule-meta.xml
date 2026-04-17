@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Manual_Update_of_Summaries</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    /* 1. Detectamos si alguno de los campos de resumen ha cambiado */
+    OR(
+        ISCHANGED(Beneficios_principales__c),
+        ISCHANGED(Promociones_asociadas__c)
+    ),
+    /* 2. Verificamos que NO sea una actualización del sistema (Apex) */
+    Is_System_Update__c = false
+)</errorConditionFormula>
+    <errorMessage>Los campos de Beneficios y Promociones son calculados automáticamente por el sistema y no pueden ser editados manualmente.</errorMessage>
+</ValidationRule>

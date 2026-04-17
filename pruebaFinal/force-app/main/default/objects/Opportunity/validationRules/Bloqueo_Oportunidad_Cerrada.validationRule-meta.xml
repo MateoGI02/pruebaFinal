@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bloqueo_Oportunidad_Cerrada</fullName>
+    <active>true</active>
+    <description>Se bloque la edición de la oportunidad una vez cerrado.</description>
+    <errorConditionFormula>AND(
+    $Profile.Name != &quot;System Administrator&quot;,
+    PRIORVALUE(IsClosed) = True
+)</errorConditionFormula>
+    <errorMessage>Se bloque la edición de campos en la oportunidad. Contactar System Administrator para ediciones.</errorMessage>
+</ValidationRule>

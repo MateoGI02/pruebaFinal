@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validar_Sustentos_Contract</fullName>
+    <active>true</active>
+    <description>Valida que todos los campos para la evaluación estén completados. Al menos un documento de sustento adjunto.</description>
+    <errorConditionFormula>AND(
+    ISCHANGED(StageName),
+    TEXT(StageName) = &quot;Contract&quot;,
+    OR(
+        /* Falla si la antigüedad está vacía o es menor a 6 */
+        ISBLANK(Antiguedad_Laboral_en_Meses__c),
+        Antiguedad_Laboral_en_Meses__c &lt; 6,
+
+        /* Falla si la línea está vacía o es menor/igual a 0 */
+        ISBLANK(Linea_de_Credito_Aprobada__c),
+        Linea_de_Credito_Aprobada__c &lt; Linea_de_credito_solicitada__c,
+
+        /* Falla si el score está vacío o es menor a 5 */
+        ISBLANK(Score_Crediticio_Butro__c),
+        Score_Crediticio_Butro__c &lt; 5,
+
+        /* Falla SI FALTA AL MENOS UNO de los 4 documentos (exige que estén todos) */
+        ISBLANK(Doc_Boleta_Pago__c),
+        ISBLANK(Doc_Recibo_Honorarios__c),
+        ISBLANK(Doc_PDT__c),
+        ISBLANK(Doc_Reporte_Tributario__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>No has completado los campos requeridos para poder pasar a generar el contrato, debes completar: Antigüedad min. 6 meses, Línea aprobada mayor o igual a línea solicitada, Score min. 5 y tener cargados los 4 sustentos de ingresos.</errorMessage>
+</ValidationRule>

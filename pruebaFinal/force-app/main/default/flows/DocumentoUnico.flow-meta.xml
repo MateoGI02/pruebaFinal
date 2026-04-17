@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Asignar_Llave_nica</name>
+        <label>Asignar Llave Única</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Llave_Unica_Documento__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_Llave_Unica</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Evita que se tenga duplicado de documentos (incluido cargas masivas)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Formula_Llave_Unica</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.Tipo_de_Documento__c}) + TEXT({!$Record.Numero_de_Documento__c})</expression>
+    </formulas>
+    <interviewLabel>DocumentoUnico {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>DocumentoUnico</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Asignar_Llave_nica</targetReference>
+        </connector>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

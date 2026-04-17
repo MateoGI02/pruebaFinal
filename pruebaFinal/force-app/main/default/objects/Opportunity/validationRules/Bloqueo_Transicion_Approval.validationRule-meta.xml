@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bloqueo_Transicion_Approval</fullName>
+    <active>true</active>
+    <description>Se valida que de la aprobación solo pase a Contract</description>
+    <errorConditionFormula>AND(
+    ISCHANGED(StageName),
+    TEXT(PRIORVALUE(StageName)) = &quot;Approval&quot;,
+    TEXT(StageName) != &quot;Contract&quot;
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>Desde la etapa &apos;Approval&apos;, la Oportunidad solo puede avanzar a la etapa de &apos;Contract&apos;.</errorMessage>
+</ValidationRule>
