@@ -1,0 +1,27 @@
+<apex:page standardController="Opportunity" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style>
+            body { font-family: 'Arial', sans-serif; padding: 20px; }
+            .header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+            .content { font-size: 14px; line-height: 1.5; }
+            .footer { margin-top: 30px; font-size: 10px; color: gray; text-transform: uppercase; }
+        </style>
+    </head>
+    <body>
+        <div class="header">CONTRATO DE TARJETA DE CRÉDITO</div>
+        
+        <div class="content">
+            <p>Por medio del presente documento, se formaliza el acuerdo con el cliente <strong>{!Opportunity.Account.Name}</strong>.</p>
+            <ul>
+                <li><strong>Producto:</strong> {!Opportunity.Tipo_de_tarjeta__c} {!Opportunity.Segmento_de_tarjeta__c}</li>
+                <li><strong>Línea Aprobada:</strong> S/ {!Opportunity.Linea_de_Credito_Aprobada__c}</li>
+                <li><strong>Fecha de Pago:</strong> Día {!Opportunity.Fecha_de_pago__c} de cada mes</li>
+                <li><strong>Retiro de Efectivo:</strong> <apex:outputText value="{!IF(Opportunity.Disponibilidad_de_retiro__c, 'Habilitado', 'Deshabilitado')}"/></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            ESTE ES UN DOCUMENTO GENERADO AUTOMÁTICAMENTE PARA FINES DE EVALUACIÓN. ID: {!Opportunity.Id}
+        </div>
+    </body>
+</apex:page>

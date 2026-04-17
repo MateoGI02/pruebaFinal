@@ -1,0 +1,123 @@
+<template>
+    <lightning-card title="Sustentos de Ingresos (Formatos PDF)" icon-name="standard:file">
+        <div class="slds-p-around_medium slds-grid slds-wrap slds-gutters">
+
+            <div class="slds-col slds-size_1-of-2 slds-p-bottom_medium">
+                <div class="slds-box">
+                    <p class="slds-text-heading_small slds-m-bottom_small"><strong>1. Boletas de pago</strong></p>
+
+                    <template if:false={hasBoleta}>
+                        <lightning-file-upload name="boleta" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                    </template>
+
+                    <template if:true={hasBoleta}>
+                        <div class="slds-media slds-media_center slds-m-bottom_small">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:pdf" size="large" title="PDF Cargado"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-color_success"><strong>¡PDF Cargado!</strong></p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                            <div class="slds-col">
+                                <lightning-file-upload name="boleta" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button label="Eliminar" icon-name="utility:delete" variant="destructive" data-name="boleta" onclick={handleRemove}></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2 slds-p-bottom_medium">
+                <div class="slds-box">
+                    <p class="slds-text-heading_small slds-m-bottom_small"><strong>2. Recibos por honorarios</strong></p>
+                    
+                    <template if:false={hasRecibo}>
+                        <lightning-file-upload name="recibo" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                    </template>
+
+                    <template if:true={hasRecibo}>
+                        <div class="slds-media slds-media_center slds-m-bottom_small">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:pdf" size="large" title="PDF Cargado"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-color_success"><strong>¡PDF Cargado!</strong></p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                            <div class="slds-col">
+                                <lightning-file-upload name="recibo" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button label="Eliminar" icon-name="utility:delete" variant="destructive" data-name="recibo" onclick={handleRemove}></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2 slds-p-bottom_medium">
+                <div class="slds-box">
+                    <p class="slds-text-heading_small slds-m-bottom_small"><strong>3. PDT / Declaración Jurada</strong></p>
+                    
+                    <template if:false={hasPdt}>
+                        <lightning-file-upload name="pdt" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                    </template>
+
+                    <template if:true={hasPdt}>
+                        <div class="slds-media slds-media_center slds-m-bottom_small">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:pdf" size="large" title="PDF Cargado"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-color_success"><strong>¡PDF Cargado!</strong></p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                            <div class="slds-col">
+                                <lightning-file-upload name="pdt" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button label="Eliminar" icon-name="utility:delete" variant="destructive" data-name="pdt" onclick={handleRemove}></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2 slds-p-bottom_medium">
+                <div class="slds-box">
+                    <p class="slds-text-heading_small slds-m-bottom_small"><strong>4. Reporte Tributario</strong></p>
+                    
+                    <template if:false={hasReporte}>
+                        <lightning-file-upload name="reporte" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                    </template>
+
+                    <template if:true={hasReporte}>
+                        <div class="slds-media slds-media_center slds-m-bottom_small">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:pdf" size="large" title="PDF Cargado"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-color_success"><strong>¡PDF Cargado!</strong></p>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                            <div class="slds-col">
+                                <lightning-file-upload name="reporte" accept=".pdf" record-id={recordId} onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button label="Eliminar" icon-name="utility:delete" variant="destructive" data-name="reporte" onclick={handleRemove}></lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>
