@@ -8,7 +8,7 @@ public with sharing class AccountManagerController {
         return [
             SELECT Id, Name, Industry, Phone, AnnualRevenue 
             FROM Account 
-            WHERE OwnerId = :UserInfo.getUserId() 
+            //WHERE OwnerId = :UserInfo.getUserId() 
             WITH SECURITY_ENFORCED 
             ORDER BY CreatedDate DESC
         ];
@@ -61,7 +61,7 @@ public with sharing class AccountManagerController {
     @AuraEnabled(cacheable=true)
     public static List<sObject> getAccountFinancialAccounts(Id accountId, String tipoTarjeta, String segmentoTarjeta) {
         if (accountId == null) { return new List<sObject>(); }
-        // CORRECCIÓN: Usando campos reales y relación Product__r hacia Product2
+        // Usando campos reales y relación Product__r hacia Product2
         String query = 'SELECT Id, Name, Estado__c, Linea_Actual__c FROM FinancialAccount__c WHERE Account__c = :accountId';
         if (String.isNotBlank(tipoTarjeta)) { query += ' AND Product__r.Tipo_de_Tarjeta__c = :tipoTarjeta'; }
         if (String.isNotBlank(segmentoTarjeta)) { query += ' AND Product__r.Segmento_de_Tarjeta__c = :segmentoTarjeta'; }
@@ -72,7 +72,7 @@ public with sharing class AccountManagerController {
     @AuraEnabled(cacheable=true)
     public static List<sObject> getAccountBeneficios(Id accountId, String tipoTarjeta, String segmentoTarjeta) {
         if (accountId == null) { return new List<sObject>(); }
-        // CORRECCIÓN: Sin Account__c, filtrando solo por catálogo general
+        // Sin Account__c, filtrando solo por catálogo general
         String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Beneficio\'';
         if (String.isNotBlank(tipoTarjeta)) { query += ' AND Tipo_de_Tarjeta__c = :tipoTarjeta'; }
         if (String.isNotBlank(segmentoTarjeta)) { query += ' AND Segmento_de_Tarjeta__c = :segmentoTarjeta'; }
@@ -83,7 +83,7 @@ public with sharing class AccountManagerController {
     @AuraEnabled(cacheable=true)
     public static List<sObject> getAccountPromociones(Id accountId, String tipoTarjeta, String segmentoTarjeta) {
         if (accountId == null) { return new List<sObject>(); }
-        // CORRECCIÓN: Sin Account__c, filtrando solo por catálogo general
+        // Sin Account__c, filtrando solo por catálogo general
         String query = 'SELECT Id, Name, Description__c FROM Benefit__c WHERE Category__c = \'Promoción\'';
         if (String.isNotBlank(tipoTarjeta)) { query += ' AND Tipo_de_Tarjeta__c = :tipoTarjeta'; }
         if (String.isNotBlank(segmentoTarjeta)) { query += ' AND Segmento_de_Tarjeta__c = :segmentoTarjeta'; }
