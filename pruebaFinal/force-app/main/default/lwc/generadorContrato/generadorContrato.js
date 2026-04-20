@@ -14,7 +14,7 @@ export default class GeneradorContrato extends LightningElement {
     contratoId; 
     pdfGeneradoUrl;
 
-    // 1. Verificamos si ya hay un PDF AUTOGENERADO en los archivos
+    // 1. Verifica si ya hay un PDF AUTOGENERADO en los archivos
     @wire(verificarContratoExistente, { recordId: '$recordId' })
     wiredVerificacion({ error, data }) {
         if (data === true) {
@@ -26,7 +26,7 @@ export default class GeneradorContrato extends LightningElement {
         }
     }
 
-    // 2. Verificamos si ya hay un contrato FIRMADO (Tu código original)
+    // 2. Verificamos si ya hay un contrato FIRMADO
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredOpp({ error, data }) {
         if (data) {
@@ -87,10 +87,10 @@ export default class GeneradorContrato extends LightningElement {
                 }));
             })
             .catch(error => {
-                // SOLUCIÓN AL ERROR ROJO: Ahora atrapamos y mostramos el error real
+                // Ahora atrapa y muestra el error real
                 console.error('Error detallado de updateRecord:', JSON.stringify(error));
                 
-                // Extraemos el mensaje de error de la regla de validación o permisos
+                // Extrae el mensaje de error de la regla de validación o permisos
                 let mensajeReal = 'Error desconocido al actualizar';
                 if (error && error.body && error.body.output && error.body.output.errors.length > 0) {
                     mensajeReal = error.body.output.errors[0].message;

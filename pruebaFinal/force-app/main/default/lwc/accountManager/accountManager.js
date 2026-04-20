@@ -11,6 +11,9 @@ import getAccountOpportunities from '@salesforce/apex/AccountManagerController.g
 import getAccountFinancialAccounts from '@salesforce/apex/AccountManagerController.getAccountFinancialAccounts';
 import getAccountBeneficios from '@salesforce/apex/AccountManagerController.getAccountBeneficios';
 import getAccountPromociones from '@salesforce/apex/AccountManagerController.getAccountPromociones';
+//Comunicar con Aura Component
+import { publish, MessageContext } from 'lightning/messageService';
+import FILTER_CHANNEL from '@salesforce/messageChannel/FilterChannel__c';
 
 const ACTIONS = [{ label: 'Editar', name: 'edit_record' }];
 
@@ -65,6 +68,20 @@ export default class AccountManager extends NavigationMixin(LightningElement) {
     tipoTarjetaSeleccionado = '';
     segmentoTarjetaSeleccionado = '';
 
+    // 2. Traer el contexto de mensajería
+    @wire(MessageContext)
+    messageContext;
+
+    // 3. Función que envía el mensaje al componente Aura
+    notificarAura() {
+        const payload = {
+            accountId: this.selectedRecordId,
+            tipoTarjeta: this.tipoTarjetaSeleccionado,
+            segmentoTarjeta: this.segmentoTarjetaSeleccionado
+        };
+        publish(this.messageContext, FILTER_CHANNEL, payload);
+    }
+
     get tipoOpciones() {
         return [
             { label: 'Ninguno', value: '' },
@@ -105,10 +122,12 @@ export default class AccountManager extends NavigationMixin(LightningElement) {
     handleTipoChange(event) {
         this.tipoTarjetaSeleccionado = event.detail.value;
         this.segmentoTarjetaSeleccionado = '';
+        this.notificarAura();
     }
 
     handleSegmentoChange(event) {
         this.segmentoTarjetaSeleccionado = event.detail.value;
+        this.notificarAura();
     }
 
     @wire(getMyAccounts)
@@ -139,6 +158,7 @@ export default class AccountManager extends NavigationMixin(LightningElement) {
     handleRowSelection(event) {
         const selectedRows = event.detail.selectedRows;
         this.selectedRecordId = selectedRows.length > 0 ? selectedRows[0].Id : null;
+        this.notificarAura();
     }
 
     // ABRIR MODAL DE EDICIÓN NATIVO
@@ -172,6 +192,7 @@ export default class AccountManager extends NavigationMixin(LightningElement) {
             .then(() => {
                 this.showToast('Éxito', 'Cuenta eliminada.', 'success');
                 this.selectedRecordId = null;
+                this.notificarAura();
                 return refreshApex(this.wiredAccountsResult);
             })
             .catch(error => this.showToast('Error', error.body.message, 'error'));

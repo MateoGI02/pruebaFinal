@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Modificado_por_LWC__c</fullName>
-    <defaultValue>false</defaultValue>
-    <label>Modificado_por_LWC</label>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
-</CustomField>

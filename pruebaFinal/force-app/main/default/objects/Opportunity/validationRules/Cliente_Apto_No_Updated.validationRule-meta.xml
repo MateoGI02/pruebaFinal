@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Cliente_Apto_No_Updated</fullName>
-    <active>true</active>
-    <description>No se puede editar el campo Cliente Apto</description>
-    <errorConditionFormula>ISCHANGED(Cliente_Apto__c)</errorConditionFormula>
-    <errorDisplayField>Cliente_Apto__c</errorDisplayField>
-    <errorMessage>No se puede editar el Cliente Apto, este valor se calcula desde el Lead</errorMessage>
-</ValidationRule>

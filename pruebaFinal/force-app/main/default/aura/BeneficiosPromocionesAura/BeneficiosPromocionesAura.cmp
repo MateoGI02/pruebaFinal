@@ -1,0 +1,38 @@
+<aura:component controller="AccountManagerController" implements="flexipage:availableForAllPageTypes" access="global">
+    
+    <aura:attribute name="beneficios" type="List" default="[]"/>
+    <aura:attribute name="promociones" type="List" default="[]"/>
+    <aura:attribute name="columns" type="List" />
+    
+    <lightning:messageChannel type="FilterChannel__c" onMessage="{!c.handleMessage}" scope="APPLICATION"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" class="slds-p-bottom_medium">
+            <lightning:card title="Beneficios (Aura)" iconName="standard:reward">
+                <div class="slds-m-around_small">
+                    <aura:if isTrue="{!not(empty(v.beneficios))}">
+                        <lightning:datatable keyField="Id" data="{!v.beneficios}" columns="{!v.columns}" hideCheckboxColumn="true"/>
+                        <aura:set attribute="else">
+                            <p class="slds-text-align_center slds-text-color_weak">No hay beneficios asociados.</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </lightning:card>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="12">
+            <lightning:card title="Promociones (Aura)" iconName="standard:campaign">
+                <div class="slds-m-around_small">
+                    <aura:if isTrue="{!not(empty(v.promociones))}">
+                        <lightning:datatable keyField="Id" data="{!v.promociones}" columns="{!v.columns}" hideCheckboxColumn="true"/>
+                        <aura:set attribute="else">
+                            <p class="slds-text-align_center slds-text-color_weak">No hay promociones asociadas.</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

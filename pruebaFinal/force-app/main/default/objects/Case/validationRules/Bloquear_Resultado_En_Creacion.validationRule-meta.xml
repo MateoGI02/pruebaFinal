@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Bloquear_Resultado_En_Creacion</fullName>
-    <active>true</active>
-    <errorConditionFormula>ISNEW() &amp;&amp; NOT(ISPICKVAL(resultadoCase__c, &quot;&quot;))</errorConditionFormula>
-    <errorDisplayField>resultadoCase__c</errorDisplayField>
-    <errorMessage>No puedes definir el resultado al momento de crear un caso nuevo. Por favor, deja este campo en blanco y llénalo solo cuando vayas a cerrar el caso.</errorMessage>
-</ValidationRule>
